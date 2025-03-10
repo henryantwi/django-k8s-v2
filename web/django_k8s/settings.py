@@ -55,10 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_k8s.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -96,9 +92,6 @@ if DB_IS_AVAIL:
     if not DB_IGNORE_SSL:
         DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
