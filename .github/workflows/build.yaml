@@ -23,7 +23,7 @@ jobs:
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
     - name: Login to DigitalOcean Container Registry with short-lived credentials
-      run: doctl registry login --expiry-secs 1200
+      run: doctl registry login --expiry-seconds 1200
     - name: Build Docker image
       working-directory: ./web
       run: |
