@@ -30,7 +30,7 @@ jobs:
       run: |
         docker build -f Dockerfile \
           -t registry.digitalocean.com/nesttop-k8s/django-k8s-web:latest  \
-          -t registry.digitalocean.com/nesttop-k8s/django-k8s-web:${GITHUB_SHA::7} \
+          -t registry.digitalocean.com/nesttop-k8s/django-k8s-web:${GITHUB_SHA::7}-${GITHUB_RUN_ID::5} \
           .
     - name: Push Docker image to DigitalOcean Container Registry
       run: |
@@ -60,7 +60,7 @@ jobs:
     - name: Update deployment image
       run: |
         kubectl set image deployment/django-k8s-web-deployment \
-          django-k8s-web=registry.digitalocean.com/nesttop-k8s/django-k8s-web:${GITHUB_SHA::7}
+          django-k8s-web=registry.digitalocean.com/nesttop-k8s/django-k8s-web:${GITHUB_SHA::7}-${GITHUB_RUN_ID::5} 
     - name: Wait for rollout to finish
       run: |
         kubectl rollout status deployment/django-k8s-web-deployment
@@ -70,7 +70,7 @@ jobs:
         kubectl get service django-k8s-web-service -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
         echo -e "\nAll Services:"
         kubectl get services
-    - name: Migrate Database and Collect Static Command
+    - name: Post-build Django Commands -Migration & Collectstatic
       run: |
         export SINGLE_POD_NAME=$(kubectl get pod -l app=django-k8s-web-deployment -o jsonpath="{.items[0].metadata.name}")
         kubectl exec -it $SINGLE_POD_NAME -- bash /app/migrate.sh
