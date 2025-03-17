@@ -95,4 +95,10 @@ Then run `migrate.sh`
 
 ```
 kubectl exec -it $SINGLE_POD_NAME -- bash /app/migrate.sh
+
+```
+(Newly added)Now run `collectstatic.sh` 
+
+```
+kubectl exec -it $SINGLE_POD_NAME -- bash /app/collectstatic.sh
 ```
