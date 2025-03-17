@@ -1,4 +1,4 @@
-name: Build Docker Container & Push to DigitalOcean Registry
+name: Build Docker Container & Push to DigitalOcean Container Registry
 
 on:
   workflow_call:
@@ -70,7 +70,7 @@ jobs:
         kubectl get service django-k8s-web-service -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
         echo -e "\nAll Services:"
         kubectl get services
-    - name: Migrate Database Command
+    - name: Migrate Database and Collect Static Command
       run: |
         export SINGLE_POD_NAME=$(kubectl get pod -l app=django-k8s-web-deployment -o jsonpath="{.items[0].metadata.name}")
         kubectl exec -it $SINGLE_POD_NAME -- bash /app/migrate.sh
